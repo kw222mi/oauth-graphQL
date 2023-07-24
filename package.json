@@ -2,32 +2,36 @@
   "name": "assignment-wt1-oauth",
   "version": "1.0.0",
   "description": "1DV027 - WT1 - oauth, REST, GraphQL",
-  "type": "module",
-  "main": "src/server.js",
-  "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon --inspect -r dotenv/config src/server.js",
-    "lint": "npx eslint ./src || exit 0",
-    "lint:fix": "npx eslint ./src --fix || exit 0"
-  },
-  "contributors": [
-    "Therese Weidenstedt <kw222mi@student.lnu.se>"
-  ],
-  "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "ejs": "^3.1.6",
-    "express": "^4.17.3",
-    "express-ejs-layouts": "^2.5.1",
-    "express-session": "^1.17.2",
-    "helmet": "^5.0.2",
-    "morgan": "^1.10.0",
-    "node-fetch": "^3.3.0"
-  },
-  "devDependencies": {
-    "@lnu/eslint-config": "^1.1.4",
-    "dotenv": "^16.0.0",
-    "nodemon": "^2.0.15"
+    "type": "module",
+    "main": "src/server.js",
+    "scripts": {
+      "start": "node src/server.js",
+      "dev": "nodemon --inspect -r dotenv/config src/server.js",
+      "lint": "npx eslint ./src || exit 0",
+      "lint:fix": "npx eslint ./src --fix || exit 0"
+    },
+    "contributors": [
+      "Therese Weidenstedt <kw222mi@student.lnu.se>"
+    ],
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+      "connect-mongodb-session": "^3.1.1",
+      "ejs": "^3.1.6",
+      "express": "^4.17.3",
+      "express-ejs-layouts": "^2.5.1",
+      "express-session": "^1.17.2",
+      "helmet": "^5.0.2",
+      "mongoose": "^6.2.4",
+      "morgan": "^1.10.0",
+      "ngrok": "^5.0.0-beta.2",
+      "node-fetch": "^3.3.0",
+      "socket.io": "^4.6.0"
+    },
+    "devDependencies": {
+      "@lnu/eslint-config": "^1.1.4",
+      "dotenv": "^16.0.0",
+      "nodemon": "^2.0.15"
+    }
   }
-}
-
+  

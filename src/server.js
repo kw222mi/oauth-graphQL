@@ -21,6 +21,19 @@ try {
   // Creates an Express application.
   const app = express()
 
+  // Create an HTTP server and pass it to Socket.IO.
+  const httpServer = createServer(app)
+  const io = new Server(httpServer)
+
+  // Not necessary, but nice to log when a user connects/disconnects.
+  io.on('connection', (socket) => {
+    console.log('socket.io: a user connected')
+
+    socket.on('disconnect', () => {
+      console.log('socket.io: a user disconnected')
+    })
+  })
+
   // Get the directory name of this module's path.
   const directoryFullName = dirname(fileURLToPath(import.meta.url))
 
@@ -54,6 +67,14 @@ try {
   // Parse requests of the content type application/x-www-form-urlencoded.
   // Populates the request object with a body object (req.body).
   app.use(express.urlencoded({ extended: false }))
+
+  // --------------------------------------------------------------------------
+  //
+  // Webhook: Parse incoming requests with JSON payloads (application/json).
+  // Populates the request object with a body object (req.body).
+  //
+  app.use(express.json())
+  // --------------------------------------------------------------------------
 
   // Serve static files.
   app.use(express.static(join(directoryFullName, '..', 'public')))
@@ -99,7 +120,16 @@ try {
 
   // Error handler.
   app.use(function (err, req, res, next) {
-   
+    // --------------------------------------------------------------------------
+    //
+    // Webhook: If it is a webhook request just send the status code and the
+    // message as plain text.
+    if (req.originalUrl.includes('/webhooks')) {
+      return res
+        .status(err.status || 500)
+        .end(err.message)
+    }
+    // --------------------------------------------------------------------------
 
     // 404 Not Found.
     if (err.status === 404) {
