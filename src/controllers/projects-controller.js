@@ -1,5 +1,5 @@
 /**
- * Module for the WebhooksController.
+ * Module for the ProjectsController.
  *
  * @author Therese Weidenstedt
  * @version 1.0.0

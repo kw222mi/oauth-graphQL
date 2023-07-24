@@ -1,5 +1,6 @@
 // import '../socket.io/socket.io.js'
 
+
 const taskTemplate = document.querySelector('#task-template')
 
 // If taskTemplate is not present on the page, just ignore and do not listen for task messages.
