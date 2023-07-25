@@ -14,12 +14,8 @@ export const router = express.Router()
 
 router.use('/', homeRouter)
 router.use('/activities', activitiesRouter)
-// --------------------------------------------------------------------------
-//
-// Webhook: Config routes for webhooks.
-//
 router.use('/projects', projectsRouter)
-// --------------------------------------------------------------------------
+
 
 router.use('*', (req, res, next) => {
   const error = new Error('Not Found')

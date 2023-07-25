@@ -13,7 +13,7 @@ export const router = express.Router()
 const projectsController = new ProjectsController()
 
 // Map HTTP verbs and route paths to controller actions.
-router.post('/',
-  (req, res, next) => projectsController.authenticate(req, res, next),
-  (req, res, next) => projectsController.indexPostTest(req, res, next)
-)
+
+router.get('/', (req, res, next) => controller.getProjects(req, res, next))
+
+

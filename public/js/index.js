@@ -1,4 +1,4 @@
-// import '../socket.io/socket.io.js'
+ import '../socket.io/socket.io.js'
 
 
 const taskTemplate = document.querySelector('#task-template')
