@@ -14,5 +14,4 @@ const controller = new HomeController()
 
 router.get('/', (req, res, next) => controller.index(req, res, next))
 router.get('/auth', (req, res, next) => controller.auth(req, res, next))
-router.get('/oauth-callback', (req, res, next) => controller.oauth( req, res, next))
-
+router.get('/oauth-callback', (req, res, next) => controller.oauth(req, res, next))

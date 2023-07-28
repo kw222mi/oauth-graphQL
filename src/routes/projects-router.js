@@ -10,10 +10,8 @@ import { ProjectsController } from '../controllers/projects-controller.js'
 
 export const router = express.Router()
 
-const projectsController = new ProjectsController()
+const controller = new ProjectsController()
 
 // Map HTTP verbs and route paths to controller actions.
 
 router.get('/', (req, res, next) => controller.getProjects(req, res, next))
-
-

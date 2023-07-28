@@ -15,6 +15,3 @@ const controller = new ActivitiesController()
 // Map HTTP verbs and route paths to controller action methods.
 
 router.get('/', (req, res, next) => controller.getAll(req, res, next))
-
-
-

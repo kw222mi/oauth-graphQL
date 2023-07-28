@@ -131,8 +131,8 @@ try {
     }
     // --------------------------------------------------------------------------
 
-     // 403 Forbidden.
-     if (err.status === 403) {
+    // 403 Forbidden.
+    if (err.status === 403) {
       return res
         .status(403)
         .sendFile(join(directoryFullName, 'views', 'errors', '403.html'))
@@ -144,7 +144,6 @@ try {
         .status(404)
         .sendFile(join(directoryFullName, 'views', 'errors', '404.html'))
     }
-
 
     // 500 Internal Server Error (in production, all other errors send this response).
     if (req.app.get('env') !== 'development') {

@@ -4,36 +4,31 @@
  * @author Therese Weidenstedt
  * @version 1.0.0
  */
-import { ActivitiesController } from './activities-controller.js'
+
 /**
  * Encapsulates a controller.
  */
 export class ProjectsController {
   /**
-   * 
+   * Get projects from GitLab.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
    */
   getProjects (req, res, next) {
-    
     let viewData
-       try{
+    try {
+      console.log('not implemented yet')
+    } catch (error) {
+      req.session.flash = { type: 'danger', text: error.message }
+      res.redirect('..')
+    }
 
-        
-    
-      } catch (error) {
-        req.session.flash = { type: 'danger', text: error.message }
-        res.redirect('..')
-      }
-    
     try {
       res.render('projects/index', { viewData })
     } catch (error) {
       next(error)
     }
-  
-   
   }
 }

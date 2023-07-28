@@ -16,7 +16,6 @@ router.use('/', homeRouter)
 router.use('/activities', activitiesRouter)
 router.use('/projects', projectsRouter)
 
-
 router.use('*', (req, res, next) => {
   const error = new Error('Not Found')
   error.status = 404
