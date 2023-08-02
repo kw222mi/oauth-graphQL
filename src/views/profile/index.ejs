@@ -1,0 +1,34 @@
+<h1>Profile</h1>
+
+  <thead>
+   
+  </thead>
+  <tbody id="profile-info">
+    <% if (viewData) { %>
+
+      <p>Gitlab ID</p>
+      <%= profile.gitlabId %>
+
+      <p>Email</p>
+      <%= profile.email %>
+
+      <p>Name</p>
+      <%= profile.name %>
+
+      <p>Username</p>
+      <%= profile.userName %>
+
+      <img src=<%= profile.avatar %> crossorigin="anonymous" width="40">
+
+      <p>Last activity</p>
+      <%= profile.lastActivity %>
+     
+    <% } else { %>
+      <tr>
+        <td colspan="3" class="text-center text-danger">
+          There are no information to display
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>

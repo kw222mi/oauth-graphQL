@@ -11,7 +11,7 @@ import axios from 'axios'
 /**
  * Encapsulates a controller.
  */
-export class HomeController {
+export class AuthController {
   /**
    * Renders a view and sends the rendered HTML string as an HTTP response.
    * index GET.
@@ -64,10 +64,6 @@ export class HomeController {
       this.#token = response.data.access_token
       console.log('My token:', this.#token)
       // res.redirect(`/?token=${this.#token}`)
-
-     
-        
-
       res.redirect('/')
     } catch (err) {
       res.status(500).json({ err: err.message })
@@ -80,20 +76,24 @@ export class HomeController {
 
     try {
       const url = `https://gitlab.lnu.se/api/v4/user?access_token=${this.#token}`
+
       const userArray = await fetch(url, {
         method: 'GET'
       })
+
       const result = await userArray.json()
+
       console.log(result)
-      
-      const profile = {
-      name: result.name,
-      userName: result.username,
-      avatar: result.avatar_url,
-      gitlabId: result.id,
-      email: result.email,
-      lastActivity: result.last_activity_on
-      }
+      // console.log(result.name)
+      /*
+      const person = result.map((person) => ({
+        name: person.name,
+        avatar: person.avatar_url
+      }))
+
+       viewData = person
+       console.log()
+      */
 
       res.render('home/user', {
         personName: result.name
@@ -105,35 +105,3 @@ export class HomeController {
     }
   }
 }
-
-
-/*
-query user{
-	user(username: "kw222mi") {
-    groupCount
-    
-    timelogs{
-      nodes{
-        spentAt
-      }
-    }
-    groups{
-      nodes{
-        fullName
-        fullPath
-        id
-        projects{
-          nodes{
-            avatarUrl
-          }
-        }
-      }
-    }
-	}
-}
-
-GET /projects/:id/repository/commits
-
-GET /avatar?email=admin@example.com
-*/
-
