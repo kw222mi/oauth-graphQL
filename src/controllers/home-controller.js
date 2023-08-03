@@ -23,6 +23,13 @@ export class HomeController {
 
   #token
 
+  /**
+   * Render index page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   index (req, res, next) {
     res.render('home/index')
   }
@@ -63,77 +70,45 @@ export class HomeController {
       const response = await axios.post('https://gitlab.lnu.se/oauth/token', parameters, opts)
       this.#token = response.data.access_token
       console.log('My token:', this.#token)
+      req.session.userToken = this.#token
       // res.redirect(`/?token=${this.#token}`)
-
-     
-        
 
       res.redirect('/')
     } catch (err) {
       res.status(500).json({ err: err.message })
     }
   }
-
-  async user (req, res, next) {
-
-     let viewData
-
-    try {
-      const url = `https://gitlab.lnu.se/api/v4/user?access_token=${this.#token}`
-      const userArray = await fetch(url, {
-        method: 'GET'
-      })
-      const result = await userArray.json()
-      console.log(result)
-      
-      const profile = {
-      name: result.name,
-      userName: result.username,
-      avatar: result.avatar_url,
-      gitlabId: result.id,
-      email: result.email,
-      lastActivity: result.last_activity_on
-      }
-
-      res.render('home/user', {
-        personName: result.name
-      })
-      
-    } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('..')
-    }
-  }
 }
-
 
 /*
 query user{
-	user(username: "kw222mi") {
+  user(username: "kw222mi") {
     groupCount
-    
     timelogs{
       nodes{
         spentAt
       }
     }
-    groups{
+    groups(first:3){
       nodes{
         fullName
         fullPath
         id
-        projects{
+        projects(first:5 includeSubgroups: true){
           nodes{
             avatarUrl
           }
+   pageInfo {
+      endCursor
+      hasNextPage
+    }
         }
       }
     }
-	}
+  }
 }
 
 GET /projects/:id/repository/commits
 
 GET /avatar?email=admin@example.com
 */
-

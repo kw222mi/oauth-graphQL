@@ -1,4 +1,3 @@
-import '../socket.io/socket.io.js'
 
 const URL_PARAMS = new URLSearchParams(window.location.search)
 const TOKEN = URL_PARAMS.get('token')
@@ -20,26 +19,7 @@ if (TOKEN) {
 
 const taskTemplate = document.querySelector('#task-template')
 
-// If taskTemplate is not present on the page, just ignore and do not listen for task messages.
-if (taskTemplate) {
-  await import('../socket.io/socket.io.js')
 
-  // Create a socket connection using Socket.IO.
-
-  // 👎 BAD PROGRAMMER, NO DONUT!
-  // CAUSE: Does not work with subdirectories.
-  // const socket = window.io()
-
-  // 🎉 This should work with any subdirectory.
-  const base = document.querySelector('base')
-  const path = base
-    ? (new URL('socket.io', base.href)).pathname
-    : '/socket.io'
-  const socket = window.io.connect('/', { path })
-
-  // Listen for "tasks/create" message from the server.
-  socket.on('tasks/create', (task) => insertTaskRow(task))
-}
 
 /**
  * Inserts a task row at the end of the task table.

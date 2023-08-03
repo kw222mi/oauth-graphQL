@@ -23,6 +23,13 @@ export class AuthController {
 
   #token
 
+  /**
+   * Render index page.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
   index (req, res, next) {
     res.render('home/index')
   }
@@ -67,41 +74,6 @@ export class AuthController {
       res.redirect('/')
     } catch (err) {
       res.status(500).json({ err: err.message })
-    }
-  }
-
-  async user (req, res, next) {
-
-     let viewData
-
-    try {
-      const url = `https://gitlab.lnu.se/api/v4/user?access_token=${this.#token}`
-
-      const userArray = await fetch(url, {
-        method: 'GET'
-      })
-
-      const result = await userArray.json()
-
-      console.log(result)
-      // console.log(result.name)
-      /*
-      const person = result.map((person) => ({
-        name: person.name,
-        avatar: person.avatar_url
-      }))
-
-       viewData = person
-       console.log()
-      */
-
-      res.render('home/user', {
-        personName: result.name
-      })
-      
-    } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('..')
     }
   }
 }

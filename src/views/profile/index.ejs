@@ -1,27 +1,25 @@
-<h1>Profile</h1>
+<h1 id="profile-title">Profile</h1>
 
-  <thead>
-   
-  </thead>
-  <tbody id="profile-info">
+ 
+  <body id="profile-info">
     <% if (viewData) { %>
 
-      <p>Gitlab ID</p>
-      <%= profile.gitlabId %>
+      <h4 class="profile-h4">Gitlab ID: </h4>
+      <%= viewData.gitlabId %>
 
-      <p>Email</p>
-      <%= profile.email %>
+      <h4 class="profile-h4">Email: </h4>
+      <%= viewData.email %>
 
-      <p>Name</p>
-      <%= profile.name %>
+      <h4 class="profile-h4">Name: </h4>
+      <%= viewData.name %>
 
-      <p>Username</p>
-      <%= profile.userName %>
+      <h4 class="profile-h4">Username: </h4>
+      <%= viewData.userName %>
 
-      <img src=<%= profile.avatar %> crossorigin="anonymous" width="40">
+      <img src=<%= viewData.avatar %> crossorigin="anonymous" width="40">
 
-      <p>Last activity</p>
-      <%= profile.lastActivity %>
+      <h4 class="profile-h4">Last activity: </h4>
+      <%= viewData.lastActivity %>
      
     <% } else { %>
       <tr>
@@ -30,5 +28,5 @@
         </td>
       </tr>
     <% } %>
-  </tbody>
-</table>
+  </body>
+
