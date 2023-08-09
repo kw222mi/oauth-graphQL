@@ -23,6 +23,7 @@ export class ProfileController {
 
     try {
       const url = `https://gitlab.lnu.se/api/v4/user?access_token=${req.session.userToken}`
+
       const userArray = await fetch(url, {
         method: 'GET'
       })

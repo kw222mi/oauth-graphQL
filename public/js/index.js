@@ -36,7 +36,6 @@ function insertTaskRow (task) {
     const taskRow = taskNode.querySelector('tr')
     const doneCheck = taskNode.querySelector('input[type=checkbox]')
     const descriptionCell = taskNode.querySelector('td:nth-child(2)')
-    const [updateLink, deleteLink] = taskNode.querySelectorAll('a')
 
     taskRow.setAttribute('data-id', task.id)
 
@@ -49,9 +48,6 @@ function insertTaskRow (task) {
     }
 
     descriptionCell.textContent = task.description
-
-    updateLink.href = `./tasks/${task.id}/update`
-    deleteLink.href = `./tasks/${task.id}/delete`
 
     taskList.append(taskNode)
   }

@@ -21,16 +21,28 @@ export class ActivitiesController {
   async getAll (req, res, next) {
     let viewData
     try {
-      console.log('not implemented')
-    } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('..')
-    }
+      const url = `https://gitlab.lnu.se/api/v4/events?access_token=${req.session.userToken}`
 
-    try {
+      const userArray = await fetch(url, {
+        method: 'GET'
+      })
+      const result = await userArray.json()
+      // console.log(result)
+
+      const activities = result.map((activity) => ({
+        actionName: activity.action_name,
+        createdAt: activity.created_at,
+        targetTitle: activity.target_title,
+        targetType: activity.target_type
+      }))
+      console.log(activities)
+      // viewData = profile
+      
       res.render('activities/index', { viewData })
     } catch (error) {
       next(error)
     }
   }
 }
+
+// GET /events

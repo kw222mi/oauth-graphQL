@@ -35,7 +35,7 @@ try {
     helmet.contentSecurityPolicy({
       directives: {
         ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-        'script-src': ["'self'", 'cdn.jsdelivr.net', 'unpkg.com'],
+        'script-src': ["'self'", 'cdn.jsdelivr.net'],
         'img-src': ['*']
       },
       crossOriginResourcePolicy: false,
