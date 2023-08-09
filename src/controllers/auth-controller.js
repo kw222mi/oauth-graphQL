@@ -70,6 +70,7 @@ export class AuthController {
       const response = await axios.post('https://gitlab.lnu.se/oauth/token', parameters, opts)
       this.#token = response.data.access_token
       console.log('My token:', this.#token)
+      console.log(' Refresh token', response.data.refresh_token)
       // res.redirect(`/?token=${this.#token}`)
       res.redirect('/')
     } catch (err) {

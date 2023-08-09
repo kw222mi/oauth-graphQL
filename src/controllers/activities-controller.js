@@ -23,10 +23,10 @@ export class ActivitiesController {
     try {
       const url = `https://gitlab.lnu.se/api/v4/events?access_token=${req.session.userToken}`
 
-      const userArray = await fetch(url, {
+      const activitiesArray = await fetch(url, {
         method: 'GET'
       })
-      const result = await userArray.json()
+      const result = await activitiesArray.json()
       // console.log(result)
 
       const activities = result.map((activity) => ({
@@ -35,11 +35,15 @@ export class ActivitiesController {
         targetTitle: activity.target_title,
         targetType: activity.target_type
       }))
-      console.log(activities)
-      // viewData = profile
-      
-      res.render('activities/index', { viewData })
+
+      viewData = activities
+      console.log(viewData)
+
+      res.render('activities/index', {
+        viewData
+      })
     } catch (error) {
+      console.error(error)
       next(error)
     }
   }

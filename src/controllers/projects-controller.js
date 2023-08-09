@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import { request, gql, GraphQLClient } from 'graphql-request'
+import { gql, GraphQLClient } from 'graphql-request'
 
 /**
  * Encapsulates a controller.
@@ -53,15 +53,14 @@ export class ProjectsController {
         }
       }
     `
-    const endpoint = 'https://gitlab.lnu.se/api/graphql'
-    const graphQLClient = new GraphQLClient(endpoint, {
-      headers: {
-        authorization: `Bearer ${req.session.userToken}`
-      },
-    })
-    const data = await graphQLClient.request(query)
-console.log(data)
-      
+      const endpoint = 'https://gitlab.lnu.se/api/graphql'
+      const graphQLClient = new GraphQLClient(endpoint, {
+        headers: {
+          authorization: `Bearer ${req.session.userToken}`
+        }
+      })
+      const data = await graphQLClient.request(query)
+      console.log(data)
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
       res.redirect('..')

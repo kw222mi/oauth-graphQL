@@ -1,4 +1,4 @@
-<h1>Activities</h1>
+<h1 id="activities-title">Activities</h1>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -8,44 +8,32 @@
       <th>Target type</th>
     </tr>
   </thead>
-  <tbody id="task-list">
-    <% if (viewData) { %>
-      <% for (const task of viewData) { %>
-        <tr data-id="<%= task.issueId %>">
-          <td class="text-center text-primary"><input class="form-check-input" type="checkbox" id="doneCheck" disabled
-              <% if (task.done ==="closed") { %> checked <% } %> /></td>
-              <td class="w-25 <% if (task.done) { %> text-muted <% } %>">
-                <img src=<%= task.avatar %> crossorigin="anonymous" width="40">
-                
-              </td>
-              <td class="w-25 <% if (task.done) { %> text-muted <% } %>">
-                <%= task.issueId %>
-                
-              </td>
-              <td class="w-25 <% if (task.done) { %> text-muted <% } %>">
-                <%= task.title %>
-              </td>
-          <td class="w-50 <% if (task.done) { %> text-muted <% } %>">
-            <%= task.description %>
-          </td>
-          <td class="text-nowrap">
 
-            
-<form class="row g-3" method="post" action="./tasks/<%= task.issueId %>/<%= task.done %>">
-  
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary" autofocus="autofocus"><% if (task.done ==="closed") { %> Reopen <% } else {%> Close <% } %></button>
-  </div>
-</form>
+  <tbody id="activities-body">
+    <% if (viewData) { %>
+      <% for (const activity of viewData) { %>
+        <tr>
+          <td class="w-25">
+            <%= activity.actionName %>
+          </td>
+          <td class="w-25">
+            <%= activity.createdAt %>
+          </td>
+          <td class="w-50">
+            <%= activity.targetTitle %>
+          </td>
+          <td class="w-25">
+            <%= activity.targetType %>
           </td>
         </tr>
       <% } %>
     <% } else { %>
       <tr>
-        <td colspan="3" class="text-center text-danger">
-          There are no tasks to display
+        <td colspan="4" class="text-center text-danger">
+          There are no activities to display
         </td>
       </tr>
     <% } %>
+    
   </tbody>
 </table>
