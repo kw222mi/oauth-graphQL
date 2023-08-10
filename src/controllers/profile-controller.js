@@ -4,7 +4,7 @@
  * @author Therese Weidenstedt
  * @version 1.0.0
  */
-
+import axios from 'axios'
 // import fetch from 'node-fetch'
 
 /**
@@ -22,6 +22,17 @@ export class ProfileController {
     let viewData
 
     try {
+      console.log('refreshtoken behövs inte alls ' + req.session.refreshToken)
+
+      const parameters = `client_id=${process.env.GITLAB_CLIENT_ID}&client_secret=${process.env.GITLAB_SECRET}&refresh_token=${req.session.refreshToken}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`
+      const opts = { headers: { accept: 'application/json' } }
+
+      const response = await axios.post('https://gitlab.lnu.se/oauth/token', parameters, opts)
+      const newAccessToken = response.data.access_token
+      req.session.userToken = newAccessToken // Update the userToken in the session
+      console.log('New access token:', newAccessToken)
+      req.session.refreshToken = response.data.refresh_token
+
       const url = `https://gitlab.lnu.se/api/v4/user?access_token=${req.session.userToken}`
 
       const userArray = await fetch(url, {
@@ -29,6 +40,25 @@ export class ProfileController {
       })
       const result = await userArray.json()
       console.log(result)
+      /*
+      if (result.message === '401 Unauthorized') {
+        console.log('refreshtoken behövs' + req.session.refreshToken)
+        console.log(req.session.userToken)
+
+        const parameters = `client_id=${process.env.GITLAB_CLIENT_ID}&client_secret=${process.env.GITLAB_SECRET}&refresh_token=${req.session.refreshToken}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`
+        const opts = { headers: { accept: 'application/json' } }
+        try {
+          const response = await axios.post('https://gitlab.lnu.se/oauth/token', parameters, opts)
+          const newAccessToken = response.data.access_token
+          req.session.userToken = newAccessToken // Update the userToken in the session
+          console.log('New access token:', newAccessToken)
+          req.session.refreshToken = response.data.refresh_token
+        } catch (err) {
+          res.status(500).json({ err: err.message })
+          return
+        }
+      }
+      */
 
       const profile = {
         name: result.name,
@@ -38,7 +68,6 @@ export class ProfileController {
         email: result.email,
         lastActivity: result.last_activity_on
       }
-      console.log(profile.name)
       viewData = profile
 
       res.render('profile/index', {

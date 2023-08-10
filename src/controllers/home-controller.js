@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import 'dotenv/config'
+// import 'dotenv/config'
 import axios from 'axios'
 
 /**
@@ -73,12 +73,25 @@ export class HomeController {
       console.log(' Refresh token', response.data.refresh_token)
       req.session.userToken = this.#token
       req.session.refreshToken = response.data.refresh_token
-      // res.redirect(`/?token=${this.#token}`)
 
       res.redirect('/')
     } catch (err) {
       res.status(500).json({ err: err.message })
     }
+  }
+
+  /**
+   * Logout a user.
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   */
+  async logout (req, res) {
+  // destroy session data
+    req.session = null
+    console.log(req.session)
+    // redirect to homepage
+    res.redirect('/')
   }
 }
 

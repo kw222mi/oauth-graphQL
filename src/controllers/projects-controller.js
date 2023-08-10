@@ -6,6 +6,7 @@
  */
 
 import { gql, GraphQLClient } from 'graphql-request'
+import axios from 'axios'
 
 /**
  * Encapsulates a controller.
@@ -21,6 +22,15 @@ export class ProjectsController {
   async getProjects (req, res, next) {
     console.log(req.session.userToken)
     let viewData
+
+    const parameters = `client_id=${process.env.GITLAB_CLIENT_ID}&client_secret=${process.env.GITLAB_SECRET}&refresh_token=${req.session.refreshToken}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`
+    const opts = { headers: { accept: 'application/json' } }
+
+    const response = await axios.post('https://gitlab.lnu.se/oauth/token', parameters, opts)
+    const newAccessToken = response.data.access_token
+    req.session.userToken = newAccessToken // Update the userToken in the session
+    console.log('New access token:', newAccessToken)
+    req.session.refreshToken = response.data.refresh_token
     try {
       const query = gql`
       {
@@ -59,14 +69,23 @@ export class ProjectsController {
           authorization: `Bearer ${req.session.userToken}`
         }
       })
-      const data = await graphQLClient.request(query)
-      console.log(data)
-    } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('..')
-    }
+      const result = await graphQLClient.request(query)
+      console.log(result)
+      console.log('Data att plocka ut ' + result.currentUser.groupCount)
+      console.log('Data att plocka ut ' + result.currentUser.groups.nodes[0].name)
+      console.log('Data att plocka ut ' + result.currentUser.groups.nodes[0].projects.nodes[0].name)
 
-    try {
+      const groups = result.currentUser.groups.nodes.map((group) => ({
+        groupName: group.name,
+        groupAvatar: group.avatarUrl,
+        groupProjects: group.projects.nodes.map((project) => ({
+          projectName: project.name,
+          projectAvatar: project.avatarUrl
+        }))
+      }))
+
+      viewData = groups
+
       res.render('projects/index', { viewData })
     } catch (error) {
       next(error)

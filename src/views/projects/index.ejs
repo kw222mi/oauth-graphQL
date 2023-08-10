@@ -1,23 +1,28 @@
-<h1>Groupes and projects</h1>
+<h1>Groups and Projects</h1>
 <table class="table table-striped">
   <thead>
     <tr>
       <th>Group</th>
-      <th>     </th>
+      <th>Project</th>
+      <th></th>
     </tr>
   </thead>
-  <tbody id="task-list">
+  <tbody id="projects-body">
     <% if (viewData) { %>
       <% for (const group of viewData) { %>
-        <tr data-id="<%= group.issueId %>">
-         
-              <td class="w-25">
-                <img src=<%= viewData.avatar %> crossorigin="anonymous" width="40">
-              </td>
-              <td class="w-25">
-                <%= group.name %>
-              </td>
-             
+        <tr>
+          <td class="w-25">
+            <img src="<%= group.groupAvatar %>" crossorigin="anonymous" width="40">
+            <%= group.groupName %>
+          </td>
+          <td class="w-25">
+            <% for (const project of group.groupProjects) { %>
+              <div>
+                <img src="<%= project.projectAvatar %>" crossorigin="anonymous" width="40">
+                <%= project.projectName %>
+              </div>
+            <% } %>
+          </td>
         </tr>
       <% } %>
     <% } else { %>
@@ -29,4 +34,3 @@
     <% } %>
   </tbody>
 </table>
-
