@@ -6,7 +6,7 @@
  */
 
 // import fetch from 'node-fetch'
-import axios from 'axios'
+import { fetchUserDataWithRetries } from './gitlabAPI.js'
 
 /**
  * Encapsulates a controller.
@@ -21,23 +21,10 @@ export class ActivitiesController {
    */
   async getAll (req, res, next) {
     let viewData
+
     try {
-      const parameters = `client_id=${process.env.GITLAB_CLIENT_ID}&client_secret=${process.env.GITLAB_SECRET}&refresh_token=${req.session.refreshToken}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`
-      const opts = { headers: { accept: 'application/json' } }
-
-      const response = await axios.post('https://gitlab.lnu.se/oauth/token', parameters, opts)
-      const newAccessToken = response.data.access_token
-      req.session.userToken = newAccessToken // Update the userToken in the session
-      console.log('New access token:', newAccessToken)
-      req.session.refreshToken = response.data.refresh_token // Update the refreshToken in the session
-
-      const url = `https://gitlab.lnu.se/api/v4/events?access_token=${req.session.userToken}`
-
-      const activitiesArray = await fetch(url, {
-        method: 'GET'
-      })
-      const result = await activitiesArray.json()
-      // console.log(result)
+      const url = 'https://gitlab.lnu.se/api/v4/events'
+      const result = await fetchUserDataWithRetries(url, req.session.userToken, req)
 
       const activities = result.map((activity) => ({
         actionName: activity.action_name,
@@ -58,5 +45,3 @@ export class ActivitiesController {
     }
   }
 }
-
-// GET /events
