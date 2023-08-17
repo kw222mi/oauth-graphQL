@@ -86,44 +86,22 @@ export class HomeController {
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
    */
-  async logout (req, res) {
-  // destroy session data
-    req.session = null
-    console.log(req.session)
-    // redirect to homepage
-    res.redirect('/')
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  logout (req, res, next) {
+    req.session.destroy(err => {
+      if (err) {
+        console.error('Error destroying session:', err)
+      } else {
+        console.log(req.session)
+        console.log('destroyed')
+        res.redirect('/')
+      }
+    })
   }
 }
-
-/*
-query user{
-  user(username: "kw222mi") {
-    groupCount
-    timelogs{
-      nodes{
-        spentAt
-      }
-    }
-    groups(first:3){
-      nodes{
-        fullName
-        fullPath
-        id
-        projects(first:5 includeSubgroups: true){
-          nodes{
-            avatarUrl
-          }
-   pageInfo {
-      endCursor
-      hasNextPage
-    }
-        }
-      }
-    }
-  }
-}
-
-GET /projects/:id/repository/commits
-
-GET /avatar?email=admin@example.com
-*/

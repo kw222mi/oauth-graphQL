@@ -17,10 +17,22 @@
           </td>
           <td class="w-25">
             <% for (const project of group.groupProjects) { %>
-              <div>
+              <tr>
+                <td>
                 <img src="<%= project.projectAvatar %>" crossorigin="anonymous" width="40">
-                <%= project.projectName %>
-              </div>
+                <%= project.projectName %> 
+              </td>
+              <td>>
+                <%= project.latestCommit %>
+              </td>
+              <td>
+                <%= project.commitPerson %>
+                <img src="<%= project.commitPersonAvatar %>" crossorigin="anonymous" width="40">
+              </td>
+              </tr>
+             
+             
+             
             <% } %>
           </td>
         </tr>
