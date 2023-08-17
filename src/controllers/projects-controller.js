@@ -20,7 +20,7 @@ export class ProjectsController {
    * @param {object} res - Express response object.
    * @param {Function} next - Express next middleware function.
    */
-  async getProjects(req, res, next) {
+  async getProjects (req, res, next) {
     try {
       const graphQlData = await this.#fetchGraphQLData(req)
       const projectsWithCommits = await this.#fetchCommitsForProjects(req, graphQlData)
@@ -33,7 +33,14 @@ export class ProjectsController {
     }
   }
 
-  async #fetchCommitsForProjects(req, graphQlData) {
+  /**
+   * Get the commits for the projects.
+   *
+   * @param {object} req - Express request object.
+   * @param  {object} graphQlData - data from the graphQl fetch.
+   * @returns {object} - projectsWithCommits
+   */
+  async #fetchCommitsForProjects (req, graphQlData) {
     const groups = graphQlData.currentUser.groups.nodes
     const projectsWithCommits = []
 
@@ -41,12 +48,12 @@ export class ProjectsController {
       const groupData = {
         groupName: group.name,
         groupAvatar: group.avatarUrl,
-        groupProjects: [],
-      };
+        groupProjects: []
+      }
 
       for (const project of group.projects.nodes) {
-        const commitInfo = await this.#findLatestCommitForProject(req, project.id);
-        const commitPersonAvatar = await this.#findUserAvatar(req, commitInfo.comitPersonEmail);
+        const commitInfo = await this.#findLatestCommitForProject(req, project.id)
+        const commitPersonAvatar = await this.#findUserAvatar(req, commitInfo.comitPersonEmail)
         console.log('commitInfo' + commitInfo)
 
         const projectData = {
@@ -70,8 +77,10 @@ export class ProjectsController {
   }
 
   /**
+   * Fetch group and project data from graphQl.
    *
-   * @param req
+   * @param {object} req - Express request object.
+   * @returns {object} - result.
    */
   async #fetchGraphQLData (req) {
     const parameters = `client_id=${process.env.GITLAB_CLIENT_ID}&client_secret=${process.env.GITLAB_SECRET}&refresh_token=${req.session.refreshToken}&grant_type=refresh_token&redirect_uri=${process.env.REDIRECT_URI}`
@@ -129,9 +138,11 @@ export class ProjectsController {
   }
 
   /**
+   * Fetch commits for the project.
    *
-   * @param req
-   * @param projectId
+   * @param {object} req - Express request object.
+   * @param {string} projectId - The id of the project.
+   * @returns {object} - CommitInfo.
    */
   async #findLatestCommitForProject (req, projectId) {
     console.log(projectId)
@@ -161,7 +172,7 @@ export class ProjectsController {
     const comitDate = r[0].committed_date
     const comitPerson = r[0].committer_name
     const comitPersonEmail = r[0].committer_email
-    
+
     const comitInfo = {
       comitDate,
       comitPerson,
@@ -169,9 +180,15 @@ export class ProjectsController {
     }
     console.log('comitDate' + comitDate)
     return comitInfo
-    }
+  }
 
-      
+  /**
+   * Get the avatar of the commiting user.
+   *
+   * @param {object} req - Express request object.
+   * @param {string} userEmail - The commiting users mail.
+   * @returns {string} avatarResult.avatar_url
+   */
   async #findUserAvatar (req, userEmail) {
     const url = `https://gitlab.lnu.se/api/v4/avatar?email=${userEmail}`
 
@@ -186,5 +203,4 @@ export class ProjectsController {
 
     return avatarResult.avatar_url
   }
-   
-  }
+}

@@ -81,17 +81,11 @@ export class HomeController {
   }
 
   /**
-   * Logout a user.
+   * Log out the user and destroy the session.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
-   */
-
-  /**
-   *
-   * @param req
-   * @param res
-   * @param next
+   * @param {Function} next - Express next middleware function.
    */
   logout (req, res, next) {
     req.session.destroy(err => {
