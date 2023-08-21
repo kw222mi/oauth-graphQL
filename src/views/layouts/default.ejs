@@ -13,9 +13,14 @@
 </head>
 
 <body>
+  
+  <% if (isLoggedIn) { %>
     <%- include('../partials/header') %>
+    <% } %>
+ 
     <main role="main" class="container">
       <%- include('../partials/flash') %>
+      <%= isLoggedIn %>
       <%- body %>
     </main>
     <%- include('../partials/footer') %>

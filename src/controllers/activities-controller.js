@@ -6,7 +6,7 @@
  */
 
 // import fetch from 'node-fetch'
-import { fetchUserDataWithRetries } from './gitlabAPI.js'
+import { fetchActivitiesWithRetries } from './gitlabAPI.js'
 
 /**
  * Encapsulates a controller.
@@ -24,7 +24,7 @@ export class ActivitiesController {
 
     try {
       const url = 'https://gitlab.lnu.se/api/v4/events'
-      const result = await fetchUserDataWithRetries(url, req.session.userToken, req)
+      const result = await fetchActivitiesWithRetries(url, req.session.userToken, req)
 
       const activities = result.map((activity) => ({
         actionName: activity.action_name,
@@ -34,7 +34,7 @@ export class ActivitiesController {
       }))
 
       viewData = activities
-      console.log(viewData)
+      // console.log(viewData)
 
       res.render('activities/index', {
         viewData

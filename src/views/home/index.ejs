@@ -17,6 +17,7 @@
   </head>
 
   <body>
+    <% if (!isLoggedIn) { %>
     <div class="content unauthorized">
       <div class="top">
         <img class="img-gitlab" src="/images/gitlab.jpg" />
@@ -27,12 +28,15 @@
         <p class="sign-in-text">in order to get started</p>
       </div>
     </div>
-    <div class="content authorized" style="display: none">
+    <% } %>
+    <% if (isLoggedIn) { %>
+    <div class="content authorized">
       <div class="top">
         <img class="img-gitlab" src="/images/gitlab.jpg" />
         <h1><span class="party-popper">🎉</span><br />Awesome!<br />You're authorized 🔒</h1>
       </div>
     </div>
+    <% } %>
     <script type="text/javascript" src="/js/index.js"></script>
   </body>
 </html>

@@ -31,7 +31,8 @@ export class HomeController {
    * @param {Function} next - Express next middleware function.
    */
   index (req, res, next) {
-    res.render('home/index')
+    const isLoggedIn = req.query.isLoggedIn === 'true' // Konvertera till boolean om det behövs
+    res.render('home/index', { isLoggedIn })
   }
 
   // https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.GITLAB_CLIENT_ID}`&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&state=STATE&scope=REQUESTED_SCOPES&code_challenge=CODE_CHALLENGE&code_challenge_method=S256
@@ -73,8 +74,13 @@ export class HomeController {
       console.log(' Refresh token', response.data.refresh_token)
       req.session.userToken = this.#token
       req.session.refreshToken = response.data.refresh_token
+      res.locals.isLoggedIn = true
 
-      res.redirect('/')
+      // Skapa en query parameter med den uppdaterade statusen
+      const queryParam = `isLoggedIn=${res.locals.isLoggedIn}`
+
+      // Utför en redirect med den uppdaterade informationen
+      res.redirect(`/?${queryParam}`)
     } catch (err) {
       res.status(500).json({ err: err.message })
     }

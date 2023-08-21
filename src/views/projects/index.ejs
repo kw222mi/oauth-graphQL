@@ -12,26 +12,33 @@
       <% for (const group of viewData) { %>
         <tr>
           <td class="w-25">
-            <img src="<%= group.groupAvatar %>" crossorigin="anonymous" width="40">
-            <%= group.groupName %>
+            <% if (group.groupAvatar) { %>
+              <img src="<%= group.groupAvatar %>" crossorigin="anonymous" width="40">
+            <% } %>
+            <a href="<%= group.groupUrl %>"><%= group.groupName %></a>
+            <%= group.groupUrl %>
           </td>
           <td class="w-25">
             <% for (const project of group.groupProjects) { %>
               <tr>
                 <td>
+                  <% if (project.projectAvatar) { %>
                 <img src="<%= project.projectAvatar %>" crossorigin="anonymous" width="40">
-                <%= project.projectName %> 
+                <% } %>
+                <a href="<%= project.projectUrl %>"><%= project.projectName %></a>
+                <%= project.projectUrl %>
               </td>
-              <td>>
-                <%= project.latestCommit %>
+              <td>
+                <%= project.latestCommit %> <%= isLoggedIn %>
               </td>
               <td>
                 <%= project.commitPerson %>
+                <% if (project.commitPersonAvatar) { %>
                 <img src="<%= project.commitPersonAvatar %>" crossorigin="anonymous" width="40">
+                <% } %>
               </td>
               </tr>
-             
-             
+                         
              
             <% } %>
           </td>

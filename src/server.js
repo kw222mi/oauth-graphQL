@@ -100,6 +100,12 @@ try {
     next()
   })
 
+  app.use((req, res, next) => {
+    // Här kan du kontrollera om användaren är inloggad eller inte och sätta en variabel
+    res.locals.isLoggedIn = !!req.session.refreshToken
+    next()
+  })
+
   // Register routes.
   app.use('/', router)
 

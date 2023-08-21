@@ -1,4 +1,3 @@
-
 const URL_PARAMS = new URLSearchParams(window.location.search)
 const TOKEN = URL_PARAMS.get('token')
 
@@ -12,7 +11,7 @@ const hide = (selector) => {
   document.querySelector(selector).style.display = 'none'
 }
 
-if (TOKEN) {
+if (isLoggedIn) {
   hide('.content.unauthorized')
   show('.content.authorized')
 }
