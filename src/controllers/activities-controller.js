@@ -35,7 +35,6 @@ export class ActivitiesController {
       }))
 
       viewData = activities
-      // console.log(viewData)
 
       res.render('activities/index', {
         viewData

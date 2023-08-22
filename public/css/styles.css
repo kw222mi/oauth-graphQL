@@ -65,18 +65,7 @@
     border: none;
     font-size: 14px;
   }
-  
-  input[type='text'] {
-    width: 180px;
-    line-height: 32px;
-    margin-bottom: 12px;
-    padding-left: 12px;
-  }
-  
-  .sign-in-text {
-    font-size: 14px;
-    line-height: 22px;
-  }
+   
   .party-popper {
     display: inline-block;
     font-size: 52px;

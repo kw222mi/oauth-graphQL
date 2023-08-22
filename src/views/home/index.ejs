@@ -20,11 +20,11 @@
     <% if (!isLoggedIn) { %>
     <div class="content unauthorized">
       <div class="top">
-        <img class="img-gitlab" src="/images/gitlab.jpg" />
+        <img class="img-gitlab" src="<%= baseURL %>/images/gitlab.jpg" />
         <h1>Happy to see you<br />newcomer 👋</h1>
       </div>
       <div class="content-bottom">
-        <a class="btn" href="<%= baseURL %>auth"SIGN IN WITH GITLAB</a>
+        <a class="btn" href="<%= baseURL %>auth">SIGN IN WITH GITLAB</a>
         <p class="sign-in-text">in order to get started</p>
       </div>
     </div>
@@ -32,7 +32,7 @@
     <% if (isLoggedIn) { %>
     <div class="content authorized">
       <div class="top">
-        <img class="img-gitlab" src="/images/gitlab.jpg" />
+        <img class="img-gitlab" src="<%= baseURL %>/images/gitlab.jpg" />
         <h1><span class="party-popper">🎉</span><br />Awesome!<br />You're authorized 🔒</h1>
       </div>
     </div>

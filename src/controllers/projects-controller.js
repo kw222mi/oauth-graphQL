@@ -110,13 +110,11 @@ export class ProjectsController {
 
       // Access the pageInfo after the inner loop to determine if more projects are available
       const moreProjectsAvailable = group.projects.pageInfo.hasNextPage
-      console.log('has more projects  ' + moreProjectsAvailable)
 
       // Add the 'moreProjectsAvailable' flag to the group data
       groupData.moreProjectsAvailable = moreProjectsAvailable
 
       projectsWithCommits.push(groupData)
-      console.log(groupData.moreProjectsAvailable)
     }
 
     return projectsWithCommits
@@ -167,14 +165,10 @@ export class ProjectsController {
    * @returns {string} avatarResult.avatar_url
    */
   async #findUserAvatar (req, userEmail) {
-    // const url = 'https://gitlab.lnu.se/api/v4/users?email=mats.loock@lnu.se'
     const url = `https://gitlab.lnu.se/api/v4/avatar?email=${userEmail}`
     const avatarResult = await fetchUserDataWithRetries(url, req.session.userToken, req)
     // const graphQ = JSON.stringify(avatarResult, null, 2)
     // console.log(graphQ)
-
-    // console.log(' avatar result ' + avatarResult.avatar_url)
-    // console.log(' avatar result ' + avatarResult)
 
     return avatarResult.avatar_url
   }

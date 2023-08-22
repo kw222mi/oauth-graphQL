@@ -35,8 +35,6 @@ export class HomeController {
    */
   auth (req, res, next) {
     res.redirect(
-    // `https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.GITLAB_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&state=${process.env.STATE}&code_challenge=${process.env.CODE_CHALLENGE}&code_challenge_method=S256`
-
     `https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.GITLAB_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&response_type=code`
 
     )
@@ -58,17 +56,14 @@ export class HomeController {
     try {
       const response = await axios.post('https://gitlab.lnu.se/oauth/token', parameters, opts)
       this.#token = response.data.access_token
-      console.log('My token:', this.#token)
-      console.log(' Refresh token', response.data.refresh_token)
       req.session.userToken = this.#token
       req.session.refreshToken = response.data.refresh_token
       res.locals.isLoggedIn = true
 
-      // Skapa en query parameter med den uppdaterade statusen
+      // Create a query parameter with the updated status.
       const queryParam = `isLoggedIn=${res.locals.isLoggedIn}`
-
-      // Utför en redirect med den uppdaterade informationen
-      res.redirect(`/?${queryParam}`)
+      // Do a redirect with the updated information.
+      res.redirect(`${process.env.BASE_URL}/?${queryParam}`)
     } catch (err) {
       res.status(500).json({ err: err.message })
     }
@@ -88,7 +83,7 @@ export class HomeController {
       } else {
         console.log(req.session)
         console.log('destroyed')
-        res.redirect('/')
+        res.redirect(`${process.env.BASE_URL}`)
       }
     })
   }
