@@ -9,7 +9,8 @@
   </thead>
   <tbody id="projects-body">
     <% if (viewData) { %>
-      <% for (const group of viewData) { %>
+      <% let moreGroupsShown = false; %>
+      <% for (const [groupIndex, group] of viewData.entries()) { %>
         <tr>
           <td class="w-25">
             <% if (group.groupAvatar) { %>
@@ -19,30 +20,47 @@
             <%= group.groupUrl %>
           </td>
           <td class="w-25">
-            <% for (const project of group.groupProjects) { %>
+            <% let moreProjectsAvailable = false; %>
+            <% for (const [index, project] of group.groupProjects.entries()) { %>
               <tr>
                 <td>
                   <% if (project.projectAvatar) { %>
-                <img src="<%= project.projectAvatar %>" crossorigin="anonymous" width="40">
-                <% } %>
-                <a href="https://gitlab.lnu.se/<%=project.projectUrl %>"><%= project.projectName %></a>
-                <%= project.projectUrl %>
-              </td>
-              <td>
-                <%= project.latestCommit %> <%= isLoggedIn %>
-              </td>
-              <td>
-                <%= project.commitPerson %>
-                <% if (project.commitPersonAvatar) { %>
-                <img src="<%= project.commitPersonAvatar %>" crossorigin="anonymous" width="40">
-                <% } %>
-              </td>
+                    <img src="<%= project.projectAvatar %>" crossorigin="anonymous" width="40">
+                  <% } %>
+                  <a href="https://gitlab.lnu.se/<%=project.projectUrl %>"><%= project.projectName %></a>
+                  <%= project.projectUrl %>
+                </td>
+                <td>
+                  <%= project.latestCommit %> <%= isLoggedIn %>
+                </td>
+                <td>
+                  <%= project.commitPerson %>
+                  <% if (project.commitPersonAvatar) { %>
+                    <img src="<%= project.commitPersonAvatar %>" crossorigin="anonymous" width="40">
+                  <% } %>
+                </td>
               </tr>
-                         
-             
+              <% if (index === group.groupProjects.length - 1) { %>
+                <% moreProjectsAvailable = group.moreProjectsAvailable; %>
+                <% if (moreProjectsAvailable) { %>
+                  <tr>
+                    <td colspan="3" class="text-center text-info">
+                      Fler projekt tillgängliga
+                    </td>
+                  </tr>
+                <% } %>
+              <% } %>
             <% } %>
           </td>
         </tr>
+        <% if (groupIndex === viewData.length - 1 && group.groupCount > 3 && !moreGroupsShown) { %>
+          <tr>
+            <td colspan="3" class="text-center text-info">
+              Fler grupper tillgängliga
+            </td>
+          </tr>
+          <% moreGroupsShown = true; %>
+        <% } %>
       <% } %>
     <% } else { %>
       <tr>

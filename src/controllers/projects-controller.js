@@ -75,10 +75,11 @@ export class ProjectsController {
   async #fetchCommitsForProjects (req, graphQlData) {
     const groups = graphQlData.currentUser.groups.nodes
     const projectsWithCommits = []
+    const groupCount = graphQlData.currentUser.groupCount
 
     for (const group of groups) {
       const groupData = {
-        groupCount: group.groupCount,
+        groupCount,
         groupName: group.name,
         groupAvatar: group.avatarUrl,
         groupUrl: group.fullPath,
