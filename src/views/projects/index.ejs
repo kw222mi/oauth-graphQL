@@ -15,7 +15,7 @@
             <% if (group.groupAvatar) { %>
               <img src="<%= group.groupAvatar %>" crossorigin="anonymous" width="40">
             <% } %>
-            <a href="<%= group.groupUrl %>"><%= group.groupName %></a>
+            <a href="https://gitlab.lnu.se/<%= group.groupUrl %>"><%= group.groupName %></a>
             <%= group.groupUrl %>
           </td>
           <td class="w-25">
@@ -25,7 +25,7 @@
                   <% if (project.projectAvatar) { %>
                 <img src="<%= project.projectAvatar %>" crossorigin="anonymous" width="40">
                 <% } %>
-                <a href="<%= project.projectUrl %>"><%= project.projectName %></a>
+                <a href="https://gitlab.lnu.se/<%=project.projectUrl %>"><%= project.projectName %></a>
                 <%= project.projectUrl %>
               </td>
               <td>

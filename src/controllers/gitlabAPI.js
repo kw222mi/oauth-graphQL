@@ -100,10 +100,11 @@ async function fetchUserDataWithRetries (url, userToken, req) {
 
       const result = await userArrayResponse.json()
 
-      // Access and log the response headers
+      /*
       for (const pair of userArrayResponse.headers.entries()) {
         console.log(pair[0] + ': ' + pair[1])
       }
+      */
 
       return result
     } catch (error) {

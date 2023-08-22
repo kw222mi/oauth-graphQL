@@ -13,7 +13,6 @@
     font-family: 'Consolas', 'Courier New', Courier, monospace
   }
   body {
-    height: 100vh;
     margin: 0;
     color: #222;
     font-family: 'Kumbh Sans', sans-serif;
@@ -112,9 +111,25 @@ body {
   --------------------------------------------------*/
   #activities-title {
     font-size: 50px;
-    margin-top: 500px;
+    margin-top: 50px;
   }
 
   #activities-body {
-    height: auto;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  #activities-conttainer {
+    display: flex; /* Use flexbox for a flexible layout */
+    flex-direction: column;
+    align-items: center; /* Center the content horizontally */
+    justify-content: center; /* Center the content vertically */
+    height: 100%; /* Expand the container's height to fill the viewport */
+  }
+
+  #activities-table-container {
+    max-width: 100%;
+    overflow-x: auto;
+    width: 80%; /* Set a desired width for the table */
   }
