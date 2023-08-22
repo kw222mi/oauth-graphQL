@@ -7,6 +7,7 @@
 
 import { gql } from 'graphql-request'
 import { fetchUserDataWithRetries, fetchUserDataFromGraphQlWithRetries } from './gitlabAPI.js'
+import { getformattedTimeAndDate } from './time.js'
 
 /**
  * Encapsulates a controller.
@@ -90,6 +91,7 @@ export class ProjectsController {
       // Fetch commit info for the project
         const commitInfo = await this.#findLatestCommitForProject(req, project.id)
         const commitPersonAvatar = await this.#findUserAvatar(req, commitInfo.comitPersonEmail)
+        const commitDate = getformattedTimeAndDate(commitInfo.comitDate)
 
         const projectData = {
           projectName: project.name,
@@ -97,7 +99,7 @@ export class ProjectsController {
           projectPath: project.fullPath,
           projectId: project.id,
           projectUrl: project.fullPath,
-          latestCommit: commitInfo.comitDate,
+          latestCommit: commitDate,
           commitPerson: commitInfo.comitPerson,
           commitPersonEmail: commitInfo.comitPersonEmail,
           commitPersonAvatar

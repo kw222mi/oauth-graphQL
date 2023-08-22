@@ -26,9 +26,6 @@ export class HomeController {
     res.render('home/index', { isLoggedIn })
   }
 
-  // https://gitlab.lnu.se/oauth/authorize?client_id=${process.env.GITLAB_CLIENT_ID}`&redirect_uri=${process.env.REDIRECT_URI}&response_type=code&state=STATE&scope=REQUESTED_SCOPES&code_challenge=CODE_CHALLENGE&code_challenge_method=S256
-  // `https://github.com/login/oauth/authorize?client_id=${process.env.GITLAB_CLIENT_ID}`
-
   /**
    * Redirect the user for GitLab authorization.
    *

@@ -16,7 +16,7 @@
    
   </head>
 
-  <body>
+  <body id="home-body">
     <% if (!isLoggedIn) { %>
     <div class="content unauthorized">
       <div class="top">
@@ -24,7 +24,7 @@
         <h1>Happy to see you<br />newcomer 👋</h1>
       </div>
       <div class="content-bottom">
-        <a class="btn" href="/auth">SIGN IN WITH GITLAB</a>
+        <a class="btn" href="<%= baseURL %>auth"SIGN IN WITH GITLAB</a>
         <p class="sign-in-text">in order to get started</p>
       </div>
     </div>

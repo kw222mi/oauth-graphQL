@@ -7,6 +7,7 @@
 
 // import fetch from 'node-fetch'
 import { fetchActivitiesWithRetries } from './gitlabAPI.js'
+import { getformattedTimeAndDate } from './time.js'
 
 /**
  * Encapsulates a controller.
@@ -28,7 +29,7 @@ export class ActivitiesController {
 
       const activities = result.map((activity) => ({
         actionName: activity.action_name,
-        createdAt: activity.created_at,
+        createdAt: getformattedTimeAndDate(activity.created_at),
         targetTitle: activity.target_title,
         targetType: activity.target_type
       }))

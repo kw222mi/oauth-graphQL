@@ -1,22 +1,41 @@
-<h1>Groups and Projects</h1>
-<table class="table table-striped">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Activities</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Arvo&family=Kumbh+Sans&display=swap" rel="stylesheet"/>
+  <link href="/css/style.css"  />
+</head>
+
+<body>
+  <div id="project-conttainer">
+    <h1 id="project-title">Groups and Projects</h1>
+    <div class="project-table-container">
+<table class="table table-striped" id="project">
+
   <thead>
     <tr>
-      <th>Group</th>
-      <th>Project</th>
+      <th></th>
+      <th></th>
       <th></th>
     </tr>
   </thead>
-  <tbody id="projects-body">
+
+  <tbody id="project-body">
     <% if (viewData) { %>
       <% let moreGroupsShown = false; %>
       <% for (const [groupIndex, group] of viewData.entries()) { %>
         <tr>
-          <td class="w-25">
+          <td class="w-50">
             <% if (group.groupAvatar) { %>
-              <img src="<%= group.groupAvatar %>" crossorigin="anonymous" width="40">
+              <img src="<%= group.groupAvatar %>" id="project-img" crossorigin="anonymous" width="40">
             <% } %>
-            <a href="https://gitlab.lnu.se/<%= group.groupUrl %>"><%= group.groupName %></a>
+            <a href="https://gitlab.lnu.se/<%= group.groupUrl %>" id="group-name"><%= group.groupName %> </a>
+            <br>
             <%= group.groupUrl %>
           </td>
           <td class="w-25">
@@ -24,19 +43,17 @@
             <% for (const [index, project] of group.groupProjects.entries()) { %>
               <tr>
                 <td>
-                  <% if (project.projectAvatar) { %>
-                    <img src="<%= project.projectAvatar %>" crossorigin="anonymous" width="40">
-                  <% } %>
-                  <a href="https://gitlab.lnu.se/<%=project.projectUrl %>"><%= project.projectName %></a>
+                  <a href="https://gitlab.lnu.se/<%=project.projectUrl %>" id="project-name"><%= project.projectName %></a>
+                  <br>
                   <%= project.projectUrl %>
                 </td>
                 <td>
-                  <%= project.latestCommit %> <%= isLoggedIn %>
+                  <%= project.latestCommit %> 
                 </td>
                 <td>
                   <%= project.commitPerson %>
                   <% if (project.commitPersonAvatar) { %>
-                    <img src="<%= project.commitPersonAvatar %>" crossorigin="anonymous" width="40">
+                    <img src="<%= project.commitPersonAvatar %>" id="project-img" crossorigin="anonymous" width="40">
                   <% } %>
                 </td>
               </tr>
@@ -44,8 +61,8 @@
                 <% moreProjectsAvailable = group.moreProjectsAvailable; %>
                 <% if (moreProjectsAvailable) { %>
                   <tr>
-                    <td colspan="3" class="text-center text-info">
-                      Fler projekt tillgängliga
+                    <td colspan="3" class="text-center text-info" id="project-more"> 
+                      Fler projekt tillgängliga på GitLab
                     </td>
                   </tr>
                 <% } %>
@@ -55,8 +72,8 @@
         </tr>
         <% if (groupIndex === viewData.length - 1 && group.groupCount > 3 && !moreGroupsShown) { %>
           <tr>
-            <td colspan="3" class="text-center text-info">
-              Fler grupper tillgängliga
+            <td colspan="3" class="text-center text-info" id="project-more">
+              Fler grupper tillgängliga på GitLab
             </td>
           </tr>
           <% moreGroupsShown = true; %>
@@ -71,3 +88,7 @@
     <% } %>
   </tbody>
 </table>
+</div>
+</div>
+</body>
+</html>
