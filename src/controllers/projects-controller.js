@@ -25,7 +25,6 @@ export class ProjectsController {
       const query = gql`
       {
         currentUser {
-          
           groupCount
           
           groups(first:3){
@@ -55,11 +54,9 @@ export class ProjectsController {
     `
 
       const graphQlData = await fetchUserDataFromGraphQlWithRetries(endpoint, req.session.userToken, query, req)
-      // const graphQlData = await this.#fetchGraphQLData(req)
       // const graphQ = JSON.stringify(graphQlData, null, 2)
       // console.log(graphQ)
       const projectsWithCommits = await this.#fetchCommitsForProjects(req, graphQlData)
-
       // console.log('projects with comits' + projectsWithCommits)
 
       res.render('projects/index', { viewData: projectsWithCommits })
@@ -72,13 +69,12 @@ export class ProjectsController {
    * Get the commits for the projects.
    *
    * @param {object} req - Express request object.
-   * @param  {object} graphQlData - data from the graphQl fetch.
+   * @param {object} graphQlData - data from the graphQl fetch.
    * @returns {object} - projectsWithCommits
    */
   async #fetchCommitsForProjects (req, graphQlData) {
     const groups = graphQlData.currentUser.groups.nodes
     const projectsWithCommits = []
-    // const moreGroupsAvailable = graphQlData.currentUser.groups.pageInfo.hasNextPage
 
     for (const group of groups) {
       const groupData = {
@@ -90,13 +86,9 @@ export class ProjectsController {
       }
 
       for (const project of group.projects.nodes) {
+      // Fetch commit info for the project
         const commitInfo = await this.#findLatestCommitForProject(req, project.id)
         const commitPersonAvatar = await this.#findUserAvatar(req, commitInfo.comitPersonEmail)
-        // console.log('PROJECT AVATAR' + project.avatarUrl)
-
-        const pageInfo = group.projects.pageInfo // Accessing the pageInfo within the projects
-        const moreGroupsAvailable = pageInfo.hasNextPage
-        console.log('has more projects  ' + moreGroupsAvailable)
 
         const projectData = {
           projectName: project.name,
@@ -113,7 +105,15 @@ export class ProjectsController {
         groupData.groupProjects.push(projectData)
       }
 
+      // Access the pageInfo after the inner loop to determine if more projects are available
+      const moreProjectsAvailable = group.projects.pageInfo.hasNextPage
+      console.log('has more projects  ' + moreProjectsAvailable)
+
+      // Add the 'moreProjectsAvailable' flag to the group data
+      groupData.moreProjectsAvailable = moreProjectsAvailable
+
       projectsWithCommits.push(groupData)
+      console.log(groupData.moreProjectsAvailable)
     }
 
     return projectsWithCommits
